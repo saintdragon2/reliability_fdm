@@ -12,6 +12,7 @@ class TestCoord(unittest.TestCase):
         p02 = Coord(2, 1)
 
         self.assertEqual( p01.distance(p02), 1)
+        self.assertEqual( str(p01), '1,1')
 
 
 
@@ -60,11 +61,33 @@ class TestElement(unittest.TestCase):
 
 
 class TestFdm(unittest.TestCase):
-    def test_read_fdm(self):
-        fdm = Fdm()
-        fdm.read_file('fdm00.csv')
+    def setUp(self):
+        self.fdm = Fdm()
+        self.fdm.read_file('fdm00.csv')
 
-        self.assertEqual(fdm.dx, 1e-3)
+    def test_read_fdm(self):
+
+        self.assertEqual(self.fdm.dx, 1e-3)
+        self.assertEqual(len(self.fdm.elements), 16)
+        self.assertEqual(self.fdm.elements[5]._id, 6)
+        self.assertEqual(self.fdm.elements[5].north._id, 2)
+        self.assertEqual(self.fdm.elements[5].south._id, 10)
+        self.assertEqual(self.fdm.elements[5].west._id, 5)
+        self.assertEqual(self.fdm.elements[5].east._id, 7)
+
+    def test_calculate_fdm(self):
+        self.assertEqual(len(self.fdm.elements[5].values), 1)
+        self.fdm.calculate()
+        self.assertEqual(len(self.fdm.elements[5].values), 2)
+        self.fdm.calculate()
+        self.assertEqual(len(self.fdm.elements[5].values), 3)
+        self.fdm.calculate(3)
+        self.assertEqual(len(self.fdm.elements[5].values), 6)
+
+        self.fdm.calculate(30)
+        print(self.fdm.elements[5].values)
+
+        # self.fdm.calculate()
 
 
     # def setUp(self):
