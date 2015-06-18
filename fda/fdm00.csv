@@ -1,0 +1,10 @@
+dx, 1e-3
+Element Type 0, D,D,D,
+Element Type 1, D,B,D,
+Element Type 2, D,D,D,
+Initial Values 0, 100, 100, 100,
+Initial Values 1, 100, 5, 5,
+Initial Values 2, 100, 5, 5,
+Diffusion Coeff 0, 1.43e-7, 1.43e-7, 1.43e-7
+Diffusion Coeff 1, 1.43e-7, 1.43e-7, 1.43e-7
+Diffusion Coeff 2, 1.43e-7, 1.43e-7, 1.43e-7
