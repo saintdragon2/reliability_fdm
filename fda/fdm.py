@@ -44,7 +44,7 @@ class Fdm:
 
         xs = int(len(element_types) / ys )
 
-
+        print(len(element_init_values))
 
         for xx in range(0, xs):
             for yy in range(0, ys):
@@ -57,6 +57,9 @@ class Fdm:
             type = element_types[i]
             dx = self.dx
             diffusion_coeff = element_diffusion_coeffs[i]
+            if i >= len(element_init_values):
+                print(i)
+
             init_value = element_init_values[i]
             x = element_coords[i].x
             y = element_coords[i].y

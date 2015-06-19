@@ -29,7 +29,7 @@ class Element:
         self.west = west
 
     def dt(self):
-        return self._dx * self._dx / self.diffusion_coeff / 4
+        return self._dx * self._dx / self.diffusion_coeff / 4.0
 
     def fo(self):
         return self.diffusion_coeff * self.dt / ( self._dx * self._dx )

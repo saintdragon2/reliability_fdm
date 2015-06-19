@@ -68,24 +68,24 @@ class TestFdm(unittest.TestCase):
     def test_read_fdm(self):
 
         self.assertEqual(self.fdm.dx, 1e-3)
-        self.assertEqual(len(self.fdm.elements), 16)
-        self.assertEqual(self.fdm.elements[5]._id, 6)
-        self.assertEqual(self.fdm.elements[5].north._id, 2)
-        self.assertEqual(self.fdm.elements[5].south._id, 10)
-        self.assertEqual(self.fdm.elements[5].west._id, 5)
-        self.assertEqual(self.fdm.elements[5].east._id, 7)
+        self.assertEqual(len(self.fdm.elements), 182)
+        self.assertEqual(self.fdm.elements[14]._id, 15)
+        self.assertEqual(self.fdm.elements[14].north._id, 2)
+        self.assertEqual(self.fdm.elements[14].south._id, 28)
+        self.assertEqual(self.fdm.elements[14].west._id, 14)
+        self.assertEqual(self.fdm.elements[14].east._id, 16)
 
     def test_calculate_fdm(self):
-        self.assertEqual(len(self.fdm.elements[5].values), 1)
+        self.assertEqual(len(self.fdm.elements[14].values), 1)
         self.fdm.calculate()
-        self.assertEqual(len(self.fdm.elements[5].values), 2)
+        self.assertEqual(len(self.fdm.elements[14].values), 2)
         self.fdm.calculate()
-        self.assertEqual(len(self.fdm.elements[5].values), 3)
+        self.assertEqual(len(self.fdm.elements[14].values), 3)
         self.fdm.calculate(3)
-        self.assertEqual(len(self.fdm.elements[5].values), 6)
+        self.assertEqual(len(self.fdm.elements[14].values), 6)
 
         self.fdm.calculate(30)
-        print(self.fdm.elements[5].values)
+
 
         # self.fdm.calculate()
 
