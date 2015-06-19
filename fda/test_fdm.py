@@ -27,6 +27,11 @@ class TestElement(unittest.TestCase):
         self.e_south = Element(5, 'D', dx, 10, 11, 1.43e-7, 5)
 
         self.d11.set_neighbors(self.e_north, self.e_east, self.e_south, self.e_west)
+        self.d11.set_fo(1.7482517482517481)
+        self.e_west.set_fo(1.7482517482517481)
+        self.e_east.set_fo(1.7482517482517481)
+        self.e_south.set_fo(1.7482517482517481)
+        self.e_north.set_fo(1.7482517482517481)
 
 
     def test_create_element(self):
@@ -44,11 +49,11 @@ class TestElement(unittest.TestCase):
         self.assertEqual(self.d11.west, self.e_west)
 
         self.assertEqual(self.d11.diffusion_coeff, 1.43e-7)
-        self.assertAlmostEqual(self.d11.dt, 1.7482517)
+        self.assertEqual(self.d11.dt, 1.7482517482517481)
         self.assertEqual(self.d11.fo, 0.25)
 
         self.assertEqual(self.d11.diffusion_coeff, 1.43e-7)
-        self.assertAlmostEqual(self.d11.dt, 1.7482517)
+        self.assertEqual(self.d11.dt, 1.7482517482517481)
         self.assertEqual(self.d11.fo, 0.25)
 
     def test_element_calculate(self):
@@ -85,33 +90,6 @@ class TestFdm(unittest.TestCase):
         self.assertEqual(len(self.fdm.elements[14].values), 6)
 
         self.fdm.calculate(30)
-
-
-        # self.fdm.calculate()
-
-
-    # def setUp(self):
-    #
-    #     dx = 1e-3
-    #     d11 = Element(1, 'D', dx, 10, 10, 1.43e-7, 5)
-    #
-    #     e_west = Element(2, 'B', dx, 9, 10, 1.43e-7, 100)
-    #     e_east = Element(3, 'D', dx, 11, 10, 1.43e-7, 5)
-    #     e_north = Element(4, 'B', dx, 10, 9, 1.43e-7, 100)
-    #     e_south = Element(5, 'D', dx, 10, 11, 1.43e-7, 5)
-    #
-    #     d11.set_neighbors(e_north, e_east, e_south, e_west)
-    #
-    #     self.fdm  = Fdm([d11, e_north, e_east, e_south, e_west])
-    #
-    # def test_create_fdm(self):
-    #     self.assertEqual( len(self.fdm.elements), 5)
-
-    # def test_calculate(self):
-    #     self.assertEqual(len(self.fdm.elements[0].values), 1)
-    #     self.fdm.calculate()
-    #     self.assertEqual(len(self.fdm.elements[0].values), 2)
-
 
 
 if __name__ == '__main__':

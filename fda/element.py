@@ -12,8 +12,8 @@ class Element:
 
         self.diffusion_coeff = diffusion_coeff
 
-        self.dt = self.dt()
-        self.fo = self.fo()
+        self.dt = None
+        self.fo = None
 
         self.values = [init_val]
 
@@ -28,11 +28,15 @@ class Element:
         self.south = south
         self.west = west
 
-    def dt(self):
+    def possible_dt(self):
         return self._dx * self._dx / self.diffusion_coeff / 4.0
 
     def fo(self):
         return self.diffusion_coeff * self.dt / ( self._dx * self._dx )
+
+    def set_fo(self, fdm_max_dt):
+        self.dt = fdm_max_dt
+        self.fo = self.diffusion_coeff * self.dt / ( self._dx * self._dx )
 
     def get_x(self):
         return self.coord.x

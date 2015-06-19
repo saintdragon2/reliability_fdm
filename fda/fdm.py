@@ -8,6 +8,7 @@ class Fdm:
     def __init__(self):
         self.elements = []
         self.dx = None
+        self.dt = None
 
     def read_file(self, file_name):
 
@@ -44,7 +45,6 @@ class Fdm:
 
         xs = int(len(element_types) / ys )
 
-        print(len(element_init_values))
 
         for xx in range(0, xs):
             for yy in range(0, ys):
@@ -66,9 +66,22 @@ class Fdm:
 
             self.elements.append( Element(id, type, dx, x, y, diffusion_coeff, init_value))
 
+        self.set_dt_fo()
+
         for element in self.elements:
             if element._type == 'D':
                 self.find_neighbors(element, xs)
+
+    def set_dt_fo(self):
+        max_dt = 0
+        for element in self.elements:
+            if max_dt < element.possible_dt():
+                max_dt = element.possible_dt()
+
+        self.dt = max_dt
+
+        for element in self.elements:
+            element.set_fo(self.dt)
 
 
     def find_neighbors(self, element, xs):
