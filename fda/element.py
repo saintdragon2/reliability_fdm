@@ -57,13 +57,15 @@ class Element:
     def calculate(self):
         if self.is_domain():
             last_time = len(self.values) - 1
+
             self.values.append(
                 (
-                    self.north.fo * self.north.last_value(last_time)
-                    + self.east.fo * self.east.last_value(last_time)
-                    + self.south.fo * self.south.last_value(last_time)
-                    + self.west.fo * self.west.last_value(last_time)
-                ) + (1-4*self.fo)*self.last_value(last_time)
+                    self.north.last_value(last_time)
+                    + self.east.last_value(last_time)
+                    + self.south.last_value(last_time)
+                    + self.west.last_value(last_time)
+                ) * self.fo
+                + (1-4*self.fo)*self.last_value(last_time)
             )
 
 

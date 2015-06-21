@@ -9,6 +9,7 @@ class Fdm:
         self.elements = []
         self.dx = None
         self.dt = None
+        self.xs = None
 
     def read_file(self, file_name):
 
@@ -43,10 +44,10 @@ class Fdm:
                         if row[i]:
                             element_diffusion_coeffs.append(float(row[i].strip()))
 
-        xs = int(len(element_types) / ys )
+        self.xs = int(len(element_types) / ys )
 
 
-        for xx in range(0, xs):
+        for xx in range(0, self.xs):
             for yy in range(0, ys):
                 x = xx * self.dx
                 y = yy * self.dx
@@ -70,18 +71,21 @@ class Fdm:
 
         for element in self.elements:
             if element._type == 'D':
-                self.find_neighbors(element, xs)
+                self.find_neighbors(element, self.xs)
 
-    def set_dt_fo(self):
-        max_dt = 0
-        for element in self.elements:
-            if max_dt < element.possible_dt():
-                max_dt = element.possible_dt()
+    def set_dt_fo(self, max_dt = None):
+
+        if max_dt is None:
+            max_dt = 0
+            for element in self.elements:
+                if max_dt < element.possible_dt():
+                    max_dt = element.possible_dt()
 
         self.dt = max_dt
 
         for element in self.elements:
             element.set_fo(self.dt)
+
 
 
     def find_neighbors(self, element, xs):
@@ -90,11 +94,53 @@ class Fdm:
         element.west = self.elements[ element._id - 2]
         element.east = self.elements[ element._id ]
 
+    def get_boundaries(self):
+        boudaries = []
+
+        for element in self.elements:
+            if not element.is_domain():
+                boudaries.append(element)
+
+        return boudaries
+
+    def get_domains(self):
+        domains = []
+        for element in self.elements:
+            if element.is_domain():
+                domains.append(element)
+        return domains
+
     def calculate(self, iteration=1):
         for i in range(0, iteration):
             for element in self.elements:
                 if element.is_domain():
                     element.calculate()
+
+    def print_snapshots(self, steps):
+        # print( self.get_domains())
+        for s in steps:
+            if s > len(self.get_domains()[0].values):
+                print('Wrong Step No.')
+                return None
+
+        for s in steps:
+            print('-----------' + str(s) + '--------------')
+            c = 1
+            result = ''
+            for element in self.elements:
+
+                if not element.is_domain():
+                    result += str(element.values[0])
+                else:
+                    result += str(element.values[s])
+                if c % self.xs == 0:
+                    print(result)
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+
 
     # print(element_types)
     # print(element_init_values)

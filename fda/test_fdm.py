@@ -74,6 +74,7 @@ class TestFdm(unittest.TestCase):
 
         self.assertEqual(self.fdm.dx, 1e-3)
         self.assertEqual(len(self.fdm.elements), 182)
+        self.assertEqual(len(self.fdm.get_boundaries()), 50)
         self.assertEqual(self.fdm.elements[14]._id, 15)
         self.assertEqual(self.fdm.elements[14].north._id, 2)
         self.assertEqual(self.fdm.elements[14].south._id, 28)
