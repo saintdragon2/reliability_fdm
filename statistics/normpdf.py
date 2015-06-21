@@ -8,6 +8,7 @@ class NormPdf:
 
         self.mean = None
         self.std = None
+        self.dx = None
         self.xs = []
         self.pds = []
 
@@ -36,6 +37,7 @@ class NormPdf:
         else:
             self.mean = mean
             self.std = std
+            self.dx = dx
 
             x0 = mean - int(bins/2)*dx
 
@@ -87,8 +89,38 @@ class NormPdf:
 
         return NormPdf(xs=zs, pds=z_pds)
 
+    def is_valid_pdf(self):
+        return abs(1 - sum(self.pds)) < 1e-10
 
 
     def fx(self, x):
         return scipy.stats.norm(self.mean, self.std).pdf(x)
 
+    def pack(self, almost_zero=1e-12):
+        first_non_zero_idx = next((self.pds.index(n) for n in self.pds if n > almost_zero), len(self.pds))
+        print(first_non_zero_idx)
+
+        self.pds = self.pds[first_non_zero_idx:-first_non_zero_idx]
+        self.xs = self.xs[first_non_zero_idx:-first_non_zero_idx]
+
+
+
+    def convolve(self, other):
+        self.pack()
+        other.pack()
+
+        if self.dx != other.dx:
+            print('Different dx')
+            return None
+
+        c_pds = numpy.convolve(self.pds, other.pds)
+        c_min = self.xs[0] + other.xs[0]
+
+        c_xs = []
+        for i in range(0, len(c_pds)):
+            c_xs.append( c_min  + i * self.dx)
+
+        c_pdf = NormPdf(xs=c_xs, pds=c_pds.tolist())
+        c_pdf.pack()
+
+        return c_pdf

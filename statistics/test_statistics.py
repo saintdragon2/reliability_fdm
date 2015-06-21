@@ -7,8 +7,8 @@ from statistics.normpdf import NormPdf
 
 
 class TestMcsFdm(unittest.TestCase):
-    # def setUp(self):
-    #     self.pdf = Pdf()
+    def setUp(self):
+        self.pdf = NormPdf(40, 2)
 
     def test_create_pdf(self):
 
@@ -64,6 +64,38 @@ class TestMcsFdm(unittest.TestCase):
         print(pdf_zx.std)
         print(len(pdf_zx.xs))
         print(pdf_zx.pds[1])
+
+    def test_pack(self):
+
+        self.assertTrue(self.pdf.is_valid_pdf())
+        self.assertEqual(len(self.pdf.pds), 201)
+        self.assertEqual(self.pdf.mean, 40)
+        self.assertEqual(self.pdf.std, 2)
+
+        self.pdf.pack()
+
+        self.assertEqual(len(self.pdf.xs), len(self.pdf.pds))
+        self.assertTrue(len(self.pdf.xs) < 201)
+
+        self.assertTrue(self.pdf.is_valid_pdf())
+
+        self.assertEqual(self.pdf.mean, 40)
+        self.assertEqual(self.pdf.std, 2)
+
+
+    def test_convolution(self):
+        pdf_a = NormPdf(40, 2)
+        pdf_b = NormPdf(50, 3)
+
+        pdf_c = pdf_a.convolve(pdf_b)
+
+        print(sum(pdf_c.pds))
+
+        self.assertTrue( pdf_c.is_valid_pdf())
+
+        self.assertEqual(pdf_c.mean, 90)
+
+
 
 
 

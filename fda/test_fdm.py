@@ -41,6 +41,8 @@ class TestElement(unittest.TestCase):
         self.assertEqual(self.d11.get_x(), 10)
         self.assertEqual(self.d11.get_y(), 10)
 
+        self.assertEqual(str(self.d11), '1\t: 10, 10')
+
         self.assertEqual(len(self.d11.values), 1)
 
         self.assertEqual(self.d11.north, self.e_north)

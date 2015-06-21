@@ -68,6 +68,9 @@ class Element:
                 + (1-4*self.fo)*self.last_value(last_time)
             )
 
+    def __str__(self):
+        return str(self._id) + '\t: ' + str(self.coord)
+
 
 
 

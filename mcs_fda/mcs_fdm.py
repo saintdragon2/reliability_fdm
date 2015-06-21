@@ -100,6 +100,7 @@ class McsFdm():
                 mcs_element.elements.append(fdm.elements[i])
             self.mcs_elements.append(mcs_element)
 
+        print('completed reading--------')
 
     def set_dt_fo(self):
         max_d = 0
@@ -132,6 +133,23 @@ class McsFdm():
                     result += str(mcs_element.mean(0))
                 else:
                     result += str(mcs_element.mean(s))
+                if c % self.xs == 0:
+                    print(result)
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+        print('------std-----------')
+        for s in steps:
+            print('-----------' + str(s) + '--------------')
+            c = 1
+            result = ''
+            for mcs_element in self.mcs_elements:
+                if not mcs_element.is_domain():
+                    result += str(mcs_element.std(0))
+                else:
+                    result += str(mcs_element.std(s))
                 if c % self.xs == 0:
                     print(result)
                     result = ''
