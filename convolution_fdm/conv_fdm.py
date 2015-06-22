@@ -110,6 +110,51 @@ class ConvFdm(Fdm):
                 else:
                     result += '\t'
                 c += 1
+
+
+
+
+    def write_file_snapshots(self, file):
+        tt = len(self.get_domains()[0].values)
+        for step in range(0, tt):
+
+            file.write('-mean----' + str(step) +  '-----\n')
+            c = 1
+            result = ''
+            for element in self.elements:
+                if not element.is_domain():
+                    result += str(element.values[0].mean)
+                else:
+                    result += str(element.values[step].mean)
+
+                if c % self.xs == 0:
+                    file.write(result+'\n')
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+        print('---------std------\n')
+        for step in range(0, tt):
+            file.write('-std----' + str(step) +  '-----' + str(step*self.dt) + '\n')
+            c = 1
+            result = ''
+            for element in self.elements:
+                if not element.is_domain():
+                    result += str(element.values[0].std)
+                else:
+                    result += str(element.values[step].std)
+
+                if c % self.xs == 0:
+                    file.write(result+'\n')
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+
+
+
         # for s in steps:
         #     print('-----------' + str(s) + '--------------')
         #     c = 1

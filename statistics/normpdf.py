@@ -4,7 +4,7 @@ import scipy.stats
 import numpy
 
 class NormPdf:
-    def __init__(self, mean=0, std=1, xs=None, pds=None, bins=6001, delta=0.01):
+    def __init__(self, mean=0, std=1, xs=None, pds=None, bins=1001, delta=0.01):
 
         self.mean = None
         self.std = None
@@ -89,14 +89,14 @@ class NormPdf:
 
         return NormPdf(xs=zs, pds=z_pds)
 
-    def is_valid_pdf(self):
-        return abs(1 - sum(self.pds)) < 1e-10
+    def is_valid_pdf(self, delta=1e-10):
+        return abs(1 - sum(self.pds)) < delta
 
 
     def fx(self, x):
         return scipy.stats.norm(self.mean, self.std).pdf(x)
 
-    def pack(self, almost_zero=1e-25):
+    def pack(self, almost_zero=1e-15):
 
         if len(self.xs) > 20:
             first_non_zero_idx = next((self.pds.index(n) for n in self.pds if n > almost_zero), len(self.pds))
@@ -115,8 +115,8 @@ class NormPdf:
 
     def convolve(self, other):
 
-        # self.pack()
-        # other.pack()
+        self.pack()
+        other.pack()
 
 
         if self.delta != other.delta:
@@ -141,8 +141,8 @@ class NormPdf:
     def scale(self, f):
         sc_pdf = NormPdf(mean=self.mean * f, std=self.std * f, delta=self.delta)
 
-        if not sc_pdf.is_valid_pdf():
-            sc_pdf = NormPdf(mean=self.mean * f, std=self.std*f, delta=self.delta, bins=len(sc_pdf.xs)*2)
+        # if not sc_pdf.is_valid_pdf():
+        #     sc_pdf = NormPdf(mean=self.mean * f, std=self.std*f, delta=self.delta, bins=len(sc_pdf.xs)*2)
         sc_pdf.pack()
 
         return sc_pdf

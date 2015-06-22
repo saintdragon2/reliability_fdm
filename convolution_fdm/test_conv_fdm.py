@@ -55,7 +55,8 @@ class TestConvElement(unittest.TestCase):
         self.assertEqual(len(self.conv_element.values), 2)
         print(self.conv_element.values[0].mean)
         print(self.conv_element.values[0].std)
-        self.assertTrue(self.conv_element.values[0].is_valid_pdf())
+        print(sum(self.conv_element.values[0].pds))
+        self.assertTrue(self.conv_element.values[0].is_valid_pdf(1e-3))
         self.assertEqual(self.conv_element.values[1].delta, 1e-2)
         # self.assertTrue(self.conv_element.values[1].is_valid_pdf())
 
