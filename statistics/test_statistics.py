@@ -8,17 +8,17 @@ from statistics.normpdf import NormPdf
 
 class TestMcsFdm(unittest.TestCase):
     def setUp(self):
-        self.pdf = NormPdf(40, 2)
+        self.pdf = NormPdf(mean=40, std=2, delta=0.1)
 
     def test_create_pdf(self):
 
-        pdf_x = NormPdf(40, 2)
+        pdf_x = NormPdf(40, 2, delta=0.1)
 
         self.assertEqual(pdf_x.mean, 40)
         self.assertEqual(pdf_x.std, 2)
-        self.assertEqual(len(pdf_x.xs), 201)
-        self.assertEqual(pdf_x.xs[0], -60)
-        self.assertEqual(pdf_x.xs[200], 140)
+        self.assertEqual(len(pdf_x.xs), 415)
+        self.assertAlmostEqual(pdf_x.xs[0], 19.3)
+        self.assertAlmostEqual(pdf_x.xs[-1], 60.7)
 
         xs_x = []
         pds_x = []
@@ -68,14 +68,15 @@ class TestMcsFdm(unittest.TestCase):
     def test_pack(self):
 
         self.assertTrue(self.pdf.is_valid_pdf())
-        self.assertEqual(len(self.pdf.pds), 201)
+        self.assertEqual(len(self.pdf.pds), 2001)
         self.assertEqual(self.pdf.mean, 40)
         self.assertEqual(self.pdf.std, 2)
 
         self.pdf.pack()
 
         self.assertEqual(len(self.pdf.xs), len(self.pdf.pds))
-        self.assertTrue(len(self.pdf.xs) < 201)
+        self.assertTrue(len(self.pdf.xs) < 2001)
+
 
         self.assertTrue(self.pdf.is_valid_pdf())
 
@@ -84,8 +85,8 @@ class TestMcsFdm(unittest.TestCase):
 
 
     def test_convolution(self):
-        pdf_a = NormPdf(40, 2)
-        pdf_b = NormPdf(50, 3)
+        pdf_a = NormPdf(40, 2, delta=0.1)
+        pdf_b = NormPdf(50, 3, delta=0.1)
 
         pdf_c = pdf_a.convolve(pdf_b)
 
@@ -95,8 +96,12 @@ class TestMcsFdm(unittest.TestCase):
 
         self.assertEqual(pdf_c.mean, 90)
 
+    def test_mult_float(self):
+        pdf_a = NormPdf(50, 3)
+        f_a = pdf_a.scale(3)
 
-
+        self.assertEqual(f_a.mean, 150)
+        self.assertEqual(f_a.std, 9)
 
 
 if __name__ == '__main__':

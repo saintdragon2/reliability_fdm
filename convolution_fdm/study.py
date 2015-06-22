@@ -49,3 +49,17 @@ print(cx[c_pdf.argmax()])
 aa = NormPdf(50, 3)
 print(len(aa.xs))
 print(aa.pds[0])
+
+print('-------')
+
+s = np.random.normal(100, 5, 1000000)
+print(np.mean(s))
+print(np.std(s))
+
+s2 =[]
+for s_e in s:
+    s2.append(s_e*3)
+
+print(np.mean(s2))
+print(np.std(s2))
+

@@ -12,7 +12,7 @@ class TestCoord(unittest.TestCase):
         p02 = Coord(2, 1)
 
         self.assertEqual( p01.distance(p02), 1)
-        self.assertEqual( str(p01), '1,1')
+        self.assertEqual( str(p01), '1, 1')
 
 
 

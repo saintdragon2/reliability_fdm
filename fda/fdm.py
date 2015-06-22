@@ -112,6 +112,7 @@ class Fdm:
 
     def calculate(self, iteration=1):
         for i in range(0, iteration):
+            print('try iteration : ' + str(i))
             for element in self.elements:
                 if element.is_domain():
                     element.calculate()
