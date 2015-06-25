@@ -3,7 +3,8 @@ __author__ = 'saintdragon2'
 from convolution_fdm.conv_fdm import ConvFdm
 conv_fdm = ConvFdm()
 
-file_name = 'conv_fdm_0_5.csv'
+# file_name = 'conv_fdm_0_5.csv'
+file_name = 'conv_fdm_0_5_bigger_std.csv'
 
 conv_fdm.read_file(file_name)
 

@@ -58,6 +58,9 @@ class Element:
         if self.is_domain():
             last_time = len(self.values) - 1
 
+            if self.fo >= 0.25:
+                raise OutOfConversionRadiusException(str(self.fo) + ' is not smaller than 0.25')
+
             self.values.append(
                 (
                     self.north.last_value(last_time)
@@ -73,4 +76,8 @@ class Element:
 
 
 
-
+class OutOfConversionRadiusException(Exception):
+    def __init__(self, message):
+        self.message = message
+    def __str__(self):
+        return repr(self.message)

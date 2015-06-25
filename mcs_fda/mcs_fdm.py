@@ -103,20 +103,25 @@ class McsFdm():
         print('completed reading--------')
 
     def set_dt_fo(self):
-        max_d = 0
-        for fdm in self.fdms:
-            for element in fdm.elements:
-                if element.diffusion_coeff > max_d:
-                    max_d = element.diffusion_coeff
+        #max_d = 0
+        #for fdm in self.fdms:
+        #    for element in fdm.elements:
+        #        if element.diffusion_coeff > max_d:
+        #            max_d = element.diffusion_coeff
+        #
+        #dt = 0.25/max_d * math.pow((self.fdms[0].dx), 2)
 
-        dt = 0.25/max_d * math.pow((self.fdms[0].dx), 2)
-
+        #for fdm in self.fdms:
+        #    fdm.set_dt_fo(dt)
         for fdm in self.fdms:
-            fdm.set_dt_fo(dt)
+            fdm.set_dt_fo(0.5)
 
     def calculate(self, iteration=1):
+        ii = 0
         for fdm in self.fdms:
+            print(ii)
             fdm.calculate(iteration)
+            ii += 1
 
     def print_snapshots(self, steps):
         for s in steps:
@@ -157,3 +162,42 @@ class McsFdm():
                     result += '\t'
                 c += 1
 
+
+    def write_snapshots(self, file):
+        for s in range(0, len(self.fdms[0].get_domains()[0].values)):
+            if s > len(self.fdms[0].get_domains()[0].values):
+                print('Wrong Step No.')
+                return None
+
+        for s in range(0, len(self.fdms[0].get_domains()[0].values)):
+            file.write('-----------' + str(s) + '--------'+str(0.5*s)+'-------\n')
+            c = 1
+            result = ''
+            for mcs_element in self.mcs_elements:
+                if not mcs_element.is_domain():
+                    result += str(mcs_element.mean(0))
+                else:
+                    result += str(mcs_element.mean(s))
+                if c % self.xs == 0:
+                    file.write(result + '\n')
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+        file.write('------std-----------\n')
+        for s in range(0, len(self.fdms[0].get_domains()[0].values)):
+            file.write('-----------' + str(s) + '-------'+str(0.5*s)+'-------\n')
+            c = 1
+            result = ''
+            for mcs_element in self.mcs_elements:
+                if not mcs_element.is_domain():
+                    result += str(mcs_element.std(0))
+                else:
+                    result += str(mcs_element.std(s))
+                if c % self.xs == 0:
+                    file.write(result + '\n')
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
