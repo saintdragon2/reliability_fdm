@@ -3,8 +3,9 @@ import math
 import scipy.stats
 import numpy
 
+
 class NormPdf:
-    def __init__(self, mean=0, std=1, xs=None, pds=None, bins=1001, delta=0.01):
+    def __init__(self, mean=0, std=1, xs=None, pds=None, bins=10001, delta=0.01):
 
         self.mean = None
         self.std = None
@@ -12,7 +13,7 @@ class NormPdf:
         self.xs = []
         self.pds = []
 
-        if xs != None:
+        if xs is not None:
             self.xs = xs
             self.pds = pds
             idx = self.pds.index(max(self.pds))
@@ -59,7 +60,7 @@ class NormPdf:
         #     self.xs.append(x)
         #     self.pds.append( norm_dist.pdf(x))
 
-    def mult(self, other, bins=2001, delta=1):
+    def mult(self, other, bins=10001, delta=1):
         mean = self.mean * other.mean
 
         x0 = min([self.xs[0], other.xs[0]])
@@ -92,7 +93,6 @@ class NormPdf:
     def is_valid_pdf(self, delta=1e-10):
         return abs(1 - sum(self.pds)) < delta
 
-
     def fx(self, x):
         return scipy.stats.norm(self.mean, self.std).pdf(x)
 
@@ -109,9 +109,6 @@ class NormPdf:
 
                 self.pds = self.pds[:after_pack_first_zero_idx]
                 self.xs = self.xs[:after_pack_first_zero_idx]
-
-
-
 
     def convolve(self, other):
 
