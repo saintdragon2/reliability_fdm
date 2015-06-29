@@ -67,7 +67,7 @@ class Fdm:
 
             self.elements.append( Element(id, type, dx, x, y, diffusion_coeff, init_value))
 
-        self.set_dt_fo()
+        self.set_dt_fo(0.5)
 
         for element in self.elements:
             if element._type == 'D':
@@ -140,6 +140,28 @@ class Fdm:
                 else:
                     result += '\t'
                 c += 1
+
+    def write_file_snapshots(self, file):
+        tt = len(self.get_domains()[0].values)
+        for step in range(0, tt):
+
+            file.write('-mean----' + str(step) + '-----\n')
+            c = 1
+            result = ''
+            for element in self.elements:
+                if not element.is_domain():
+                    result += str(element.values[0])
+                else:
+                    result += str(element.values[step])
+
+                if c % self.xs == 0:
+                    file.write(result+'\n')
+                    result = ''
+                else:
+                    result += '\t'
+                c += 1
+
+
 
 
 
