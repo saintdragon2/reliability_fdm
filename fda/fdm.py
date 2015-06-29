@@ -161,6 +161,11 @@ class Fdm:
                     result += '\t'
                 c += 1
 
+    def write_traking_elements(self, file, elements_idx):
+        for i in elements_idx:
+            file.write(str(self.elements[i].get_id()) + '\n')
+            file.write(str(self.elements[i].values) + '\n')
+
 
 
 

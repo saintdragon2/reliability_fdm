@@ -38,6 +38,9 @@ class Element:
         self.dt = fdm_max_dt
         self.fo = self.diffusion_coeff * self.dt / ( self._dx * self._dx )
 
+    def get_id(self):
+        return self._id
+
     def get_x(self):
         return self.coord.x
 

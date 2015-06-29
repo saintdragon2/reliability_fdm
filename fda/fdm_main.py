@@ -12,3 +12,7 @@ fdm.print_snapshots([0, 1, 2, 3])
 f = open(file_name[:-3] + 'out', 'w')
 fdm.write_file_snapshots(f)
 f.close()
+
+traking = open(file_name[:-3] + 'track', 'w')
+fdm.write_traking_elements(traking, [15, 23])
+traking.close()
