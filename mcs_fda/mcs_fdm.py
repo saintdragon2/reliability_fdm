@@ -201,3 +201,21 @@ class McsFdm():
                 else:
                     result += '\t'
                 c += 1
+
+    def write_traking_elements(self, file, elements_idx):
+        file.write('--------mean-----\n')
+        for i in elements_idx:
+            file.write(str(self.mcs_elements[i].get_id()) + '\n')
+            result = ''
+            for j in range(0, len(self.fdms[0].elements[i].values)):
+                result += str(self.mcs_elements[i].mean(j)) + '\t'
+            file.write(result + '\n')
+
+        file.write('--------std-------\n')
+
+        for i in elements_idx:
+            file.write(str(self.mcs_elements[i].get_id()) + '\n')
+            result = ''
+            for j in range(0, len(self.fdms[0].elements[i].values)):
+                result += str(self.mcs_elements[i].std(j)) + '\t'
+            file.write(result + '\n')

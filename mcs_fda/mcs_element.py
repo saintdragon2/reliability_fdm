@@ -12,6 +12,9 @@ class McsElement:
     def is_domain(self):
         return self.elements[0].is_domain()
 
+    def get_id(self):
+        return self.elements[0].get_id()
+
     def mean(self, step):
         sum = 0
         for element in self.elements:
