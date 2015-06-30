@@ -5,7 +5,7 @@ fdm = Fdm()
 file_name = 'fdm00.csv'
 fdm.read_file(file_name)
 
-fdm.calculate(2000)
+fdm.calculate(200)
 
 fdm.print_snapshots([0, 1, 2, 3])
 
@@ -14,5 +14,5 @@ fdm.write_file_snapshots(f)
 f.close()
 
 traking = open(file_name[:-3] + 'track', 'w')
-fdm.write_traking_elements(traking, [15, 23])
+fdm.write_traking_elements(traking, [42, 150])
 traking.close()
