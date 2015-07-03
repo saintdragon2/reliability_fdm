@@ -29,4 +29,15 @@ class McsElement:
 
         return numpy.std(values)
 
+    def all_values(self, step):
+        result = []
+        for element in self.elements:
+            result.append(element.values[step])
+        return result
+
+    def get_pdf(self, step, no_bins = 100):
+        values = self.all_values(step)
+
+        return numpy.histogram(values, bins=no_bins, density=True)
+
 

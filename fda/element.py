@@ -2,6 +2,7 @@ __author__ = 'saintdragon2'
 
 from fda.coord import Coord
 
+
 class Element:
     def __init__(self, id, type, dx, x, y, diffusion_coeff, init_val=0):
         self._id = id
@@ -55,7 +56,6 @@ class Element:
 
     def is_domain(self):
         return self._type == 'D' or self._type == 'd'
-
 
     def calculate(self):
         if self.is_domain():

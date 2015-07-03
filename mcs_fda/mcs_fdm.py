@@ -219,3 +219,21 @@ class McsFdm():
             for j in range(0, len(self.fdms[0].elements[i].values)):
                 result += str(self.mcs_elements[i].std(j)) + '\t'
             file.write(result + '\n')
+
+    def write_traking_elements_pdf(self, file, elements_idx, step):
+        file.write('--------pdfs--------------\n')
+
+        for i in elements_idx:
+            file.write(str(self.mcs_elements[i].get_id()) + '\n')
+            file.write(str(self.mcs_elements[i].all_values(step)) + '\n')
+
+            pdf = self.mcs_elements[i].get_pdf(step)
+            xs = ''
+            for x in pdf[1]:
+                xs += str(x) + '\t'
+            file.write(xs +'\n')
+
+            pds = ''
+            for v in pdf[0]:
+                pds += str(v) + '\t'
+            file.write(pds + '\n')
