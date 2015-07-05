@@ -57,6 +57,9 @@ class Element:
     def is_domain(self):
         return self._type == 'D' or self._type == 'd'
 
+    def get_type(self):
+        return self._type
+
     def calculate(self):
         if self.is_domain():
             last_time = len(self.values) - 1

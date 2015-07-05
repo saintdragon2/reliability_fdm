@@ -93,7 +93,6 @@ class McsFdm():
 
         self.set_dt_fo()
 
-
         for i in range(0, len(self.fdms[0].elements)):
             mcs_element = McsElement()
             for fdm in self.fdms:
