@@ -27,15 +27,15 @@ class TestElement(unittest.TestCase):
         self.e_south = Element(5, 'D', dx, 10, 11, 1.43e-7, 5)
 
         self.d11.set_neighbors(self.e_north, self.e_east, self.e_south, self.e_west)
-        self.d11.set_fo(1.7482517482517481)
-        self.e_west.set_fo(1.7482517482517481)
-        self.e_east.set_fo(1.7482517482517481)
-        self.e_south.set_fo(1.7482517482517481)
-        self.e_north.set_fo(1.7482517482517481)
+        self.d11.set_fo(0.5) #1.7482517482517481
+        self.e_west.set_fo(0.5)
+        self.e_east.set_fo(0.5)
+        self.e_south.set_fo(0.5)
+        self.e_north.set_fo(0.5)
 
 
     def test_create_element(self):
-        self.assertEqual(self.d11._id, 1)
+        self.assertEqual(self.d11._no, 1)
         self.assertEqual(self.d11._type, 'D')
         self.assertEqual(self.d11._dx, 0.001)
         self.assertEqual(self.d11.get_x(), 10)
@@ -51,17 +51,17 @@ class TestElement(unittest.TestCase):
         self.assertEqual(self.d11.west, self.e_west)
 
         self.assertEqual(self.d11.diffusion_coeff, 1.43e-7)
-        self.assertEqual(self.d11.dt, 1.7482517482517481)
-        self.assertEqual(self.d11.fo, 0.25)
+        self.assertEqual(self.d11.dt, 0.5)
+        self.assertAlmostEqual(self.d11.fo,  0.0715)
 
         self.assertEqual(self.d11.diffusion_coeff, 1.43e-7)
-        self.assertEqual(self.d11.dt, 1.7482517482517481)
-        self.assertEqual(self.d11.fo, 0.25)
+        self.assertEqual(self.d11.dt, 0.5)
+        self.assertAlmostEqual(self.d11.fo, 0.0715)
 
     def test_element_calculate(self):
         self.d11.calculate()
         self.assertEqual(len(self.d11.values), 2)
-        self.assertEqual(self.d11.values[1], 52.5)
+        self.assertEqual(self.d11.values[1], 18.585)
 
         self.e_north.calculate()
         self.assertEqual(len(self.e_north.values), 1)
@@ -94,6 +94,13 @@ class TestFdm(unittest.TestCase):
 
         self.fdm.calculate(30)
 
+class TestMirrorFdm(unittest.TestCase):
+    def setUp(self):
+        self.fdm = Fdm()
+        self.fdm.read_file('fdm00_mirror.csv')
+
+    def test_read_fdm(self):
+        self.assertEqual(self.fdm.dx, 1e-3)
 
 if __name__ == '__main__':
     unittest.main()

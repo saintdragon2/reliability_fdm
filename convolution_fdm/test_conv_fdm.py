@@ -24,7 +24,7 @@ class TestConvElement(unittest.TestCase):
 
     def test_create_conv_element(self):
 
-        self.assertEqual(self.conv_element._id, 1)
+        self.assertEqual(self.conv_element._no, 1)
         self.assertEqual(self.conv_element._type, 'D')
         self.assertEqual(self.conv_element._dx, 1e-3)
         self.assertEqual(self.conv_element.get_x(), 10)

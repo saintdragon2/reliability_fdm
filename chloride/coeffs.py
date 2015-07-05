@@ -9,9 +9,9 @@ class DiffCoeff:
 
     def t(self, year):
         if year <= 30:
-            return self.d_ref * math.pow(self.t_ref / year, 0.2)
+            return self.d_ref * math.pow(self.t_ref / year, 0.2) * 365 * 24 * 60 * 60
         else:
-            return self.d_ref * math.pow(self.t_ref/30, 0.2)
+            return self.d_ref * math.pow(self.t_ref/30, 0.2) * 365 * 24 * 60 * 60
 
 
 class SurfaceChloride:

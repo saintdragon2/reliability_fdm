@@ -5,7 +5,7 @@ from fda.coord import Coord
 
 class Element:
     def __init__(self, id, type, dx, x, y, diffusion_coeff, init_val=0):
-        self._id = id
+        self._no = id
         self._type = type
         self._dx = dx
 
@@ -32,7 +32,7 @@ class Element:
     def possible_dt(self):
         return self._dx * self._dx / self.diffusion_coeff / 4.0
 
-    def fo(self):
+    def get_fo(self):
         return self.diffusion_coeff * self.dt / ( self._dx * self._dx )
 
     def set_fo(self, fdm_max_dt):
@@ -40,7 +40,7 @@ class Element:
         self.fo = self.diffusion_coeff * self.dt / ( self._dx * self._dx )
 
     def get_id(self):
-        return self._id
+        return self._no
 
     def get_x(self):
         return self.coord.x
@@ -61,7 +61,7 @@ class Element:
         if self.is_domain():
             last_time = len(self.values) - 1
 
-            if self.fo >= 0.25:
+            if self.get_fo() >= 0.25:
                 raise OutOfConversionRadiusException(str(self.fo) + ' is not smaller than 0.25')
 
             self.values.append(
@@ -75,7 +75,7 @@ class Element:
             )
 
     def __str__(self):
-        return str(self._id) + '\t: ' + str(self.coord)
+        return str(self._no) + '\t: ' + str(self.coord)
 
 
 

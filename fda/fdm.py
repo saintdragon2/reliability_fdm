@@ -46,7 +46,6 @@ class Fdm:
 
         self.xs = int(len(element_types) / ys )
 
-
         for xx in range(0, self.xs):
             for yy in range(0, ys):
                 x = xx * self.dx
@@ -86,22 +85,20 @@ class Fdm:
         for element in self.elements:
             element.set_fo(self.dt)
 
-
-
     def find_neighbors(self, element, xs):
-        element.north = self.elements[ element._id - 1 - xs]
-        element.south = self.elements[ element._id - 1 + xs]
-        element.west = self.elements[ element._id - 2]
-        element.east = self.elements[ element._id ]
+        element.north = self.elements[element.get_id() - 1 - xs]
+        element.south = self.elements[ element.get_id() - 1 + xs]
+        element.west = self.elements[ element.get_id() - 2]
+        element.east = self.elements[ element.get_id() ]
 
     def get_boundaries(self):
-        boudaries = []
+        boundaries = []
 
         for element in self.elements:
             if not element.is_domain():
-                boudaries.append(element)
+                boundaries.append(element)
 
-        return boudaries
+        return boundaries
 
     def get_domains(self):
         domains = []
